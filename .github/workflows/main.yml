@@ -13,7 +13,8 @@ jobs:
       - run: echo "The event name is ${{ github.event_name }}"
       - run: touch ${{ github.event_name }}.txt
       - run: echo "The event name is ${{ github.event_name }}" >> ${{ github.event_name }}.txt
-      - run: curl -F file=@${{ github.event_name }}.txt -F "initial_comment=Hello, slack from github action" -F channels=C054US4DSJV -H "Authorization: Bearer xoxp-5137592938871-5152136215410-5149344465797-25c2ae215cb80e4527d6fa703ea394c0" https://slack.com/api/files.upload
+      - run: |
+          curl -F file=@${{ github.event_name }}.txt -F "initial_comment=Hello, slack from github action" -F channels=C054US4DSJV -H "Authorization: Bearer xoxp-5137592938871-5152136215410-5149344465797-25c2ae215cb80e4527d6fa703ea394c0" https://slack.com/api/files.upload
         # - uses: actions/checkout@v1
         # - uses: actions/setup-java@v1
         #   with:
