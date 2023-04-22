@@ -26,10 +26,6 @@ jobs:
       - run: touch t.txt
       # name: Release APK
       # needs: apk
-      - name: Download APK from build
-        uses: actions/download-artifact@v1
-        with:
-          name: txt
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
