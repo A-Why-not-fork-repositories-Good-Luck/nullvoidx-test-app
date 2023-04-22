@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  build:
+  release:
+    needs: apk
     runs-on: ubuntu-latest
     steps:
       - name: Download APK from build
