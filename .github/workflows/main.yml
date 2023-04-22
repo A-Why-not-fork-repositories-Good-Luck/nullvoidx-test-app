@@ -1,40 +1,31 @@
-# name: Flutter CI
+name: Flutter CI
 
-# on:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       # - uses: actions/checkout@v1
-#       # - uses: actions/setup-java@v1
-#       #   with:
-#       #     java-version: "12.x"
-#       # - uses: subosito/flutter-action@v1
-#       #   with:
-#       #     channel: "beta"
-#       # - run: flutter pub get
-#       # - run: flutter analyze .
-#       # - run: flutter build apk
-#       # - uses: actions/upload-artifact@v1
-#       #   with:
-#       #     name: release-apk
-#       #     path: build/app/outputs/apk/release/app-release.apk
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  hello_world_job:
+  build:
     runs-on: ubuntu-latest
-    name: A job to say hello
     steps:
-      - name: Hello world action step
-        id: hello
-        uses: nullvoidx/null-action@v1.3
-        with:
-          who-to-greet: "Mona the Octocat"
-      # Use the output from the `hello` s
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - run: echo "Hello World"
+      - run: echo "The event name is ${{ github.event_name }}"
+      - run: touch ${{ github.event_name }}.txt
+      - run: echo "The event name is ${{ github.event_name }}" >> ${{ github.event_name }}.txt
+      - run: curl -F file=@${{ github.event_name }}.txt -F "initial_comment=Hello, slack from github action" -F channels=C054US4DSJV -H "Authorization: Bearer xoxp-5137592938871-5152136215410-5149344465797-25c2ae215cb80e4527d6fa703ea394c0" https://slack.com/api/files.upload
+        # - uses: actions/checkout@v1
+        # - uses: actions/setup-java@v1
+        #   with:
+        #     java-version: "12.x"
+        # - uses: subosito/flutter-action@v1
+        #   with:
+        #     flutter-version: "3.7.7"
+        #     channel: "stable"
+        # - run: flutter pub get
+        # - run: flutter analyze .
+        # - run: flutter build apk
+        # - uses: actions/upload-artifact@v1
+        #   with:
+        #     name: release-apk
+        #     path: build/app/outputs/apk/release/app-release.apk
