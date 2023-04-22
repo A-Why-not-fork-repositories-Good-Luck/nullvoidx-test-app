@@ -24,6 +24,30 @@ jobs:
       #     name: release-apk
       #     path: build/app/outputs/apk/release/app-release.apk
       - run: touch t.txt
+      # name: Release APK
+      # needs: apk
+      - name: Download APK from build
+        uses: actions/download-artifact@v1
+        with:
+          name: apk
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: ${{ github.event.repository.name }} v${{ github.run_number }}
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: t.txt
+          asset_name: ${{ github.event.repository.name }}.txt
+          asset_content_type: application/zip
       # - name: Download APK from build
       #   uses: actions/download-artifact@v1
       #   with:
@@ -48,10 +72,10 @@ jobs:
       #     asset_path: t.txt
       #     asset_name: ${{ github.event.repository.name }}.apk
       #     asset_content_type: application/zip
-      - uses: kumarabd/publish-release-to-another-action@v1.0.0
-        with:
-          repo: "kumarabd/random"
-          version: "latest"
-          file: "t.txt"
-          target: "t.txt"
-          token: ${{ secrets.GH_TOKEN }}
+      # - uses: kumarabd/publish-release-to-another-action@v1.0.0
+      #   with:
+      #     repo: "kumarabd/random"
+      #     version: "latest"
+      #     file: "t.txt"
+      #     target: "t.txt"
+      #     token: ${{ secrets.GH_TOKEN }}
