@@ -24,7 +24,7 @@ jobs:
       #     name: release-apk
       #     path: build/app/outputs/apk/release/app-release.apk
       - run: touch t.txt
-      - uses: actions/create-release@v1
+      - uses: elgohr/Github-Release-Action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
