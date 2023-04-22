@@ -1,6 +1,12 @@
-release:
-  name: Release APK
-  needs: apk
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
   runs-on: ubuntu-latest
   steps:
     - name: Download APK from build
