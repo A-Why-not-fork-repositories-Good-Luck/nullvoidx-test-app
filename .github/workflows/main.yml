@@ -48,18 +48,10 @@ jobs:
       #     asset_path: t.txt
       #     asset_name: ${{ github.event.repository.name }}.apk
       #     asset_content_type: application/zip
-      - uses: actions/checkout@v3
-      - name: Github Release
-        uses: elgohr/Github-Release-Action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - uses: kumarabd/publish-release-to-another-action@v1.0.0
         with:
-          title: MyReleaseMessage
-      - uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: t.txt
-          asset_name: ${{ github.event.repository.name }}.apk
-          asset_content_type: application/zip
+          repo: "kumarabd/random"
+          version: "latest"
+          file: "t.txt"
+          target: "t.txt"
+          token: ${{ secrets.GH_TOKEN }}
