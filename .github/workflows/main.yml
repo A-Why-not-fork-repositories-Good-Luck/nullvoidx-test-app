@@ -1,77 +1,40 @@
-name: Flutter CI
+# name: Flutter CI
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       # - uses: actions/checkout@v1
+#       # - uses: actions/setup-java@v1
+#       #   with:
+#       #     java-version: "12.x"
+#       # - uses: subosito/flutter-action@v1
+#       #   with:
+#       #     channel: "beta"
+#       # - run: flutter pub get
+#       # - run: flutter analyze .
+#       # - run: flutter build apk
+#       # - uses: actions/upload-artifact@v1
+#       #   with:
+#       #     name: release-apk
+#       #     path: build/app/outputs/apk/release/app-release.apk
+on: [push]
 
 jobs:
-  build:
+  hello_world_job:
     runs-on: ubuntu-latest
+    name: A job to say hello
     steps:
-      # - uses: actions/checkout@v1
-      # - uses: actions/setup-java@v1
-      #   with:
-      #     java-version: "12.x"
-      # - uses: subosito/flutter-action@v1
-      #   with:
-      #     channel: "beta"
-      # - run: flutter pub get
-      # - run: flutter analyze .
-      # - run: flutter build apk
-      # - uses: actions/upload-artifact@v1
-      #   with:
-      #     name: release-apk
-      #     path: build/app/outputs/apk/release/app-release.apk
-      - run: touch t.txt
-      # name: Release APK
-      # needs: apk
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Hello world action step
+        id: hello
+        uses: nullvoidx/null-action@v1.1
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: ${{ github.event.repository.name }} v${{ github.run_number }}
-      - name: Upload Release APK
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: t.txt
-          asset_name: ${{ github.event.repository.name }}.txt
-          asset_content_type: application/zip
-      # - name: Download APK from build
-      #   uses: actions/download-artifact@v1
-      #   with:
-      #     name: t.txt
-      #     path: t.txt
-
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.run_number }}
-      #     release_name: ${{ github.event.repository.name }} v${{ github.run_number }}
-      # - name: Upload Release APK
-      #   id: upload_release_asset
-      #   uses: actions/upload-release-asset@v1.0.1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: t.txt
-      #     asset_name: ${{ github.event.repository.name }}.apk
-      #     asset_content_type: application/zip
-      # - uses: kumarabd/publish-release-to-another-action@v1.0.0
-      #   with:
-      #     repo: "kumarabd/random"
-      #     version: "latest"
-      #     file: "t.txt"
-      #     target: "t.txt"
-      #     token: ${{ secrets.GH_TOKEN }}
+          who-to-greet: "Mona the Octocat"
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
